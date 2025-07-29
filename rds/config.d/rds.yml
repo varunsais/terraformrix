@@ -1,0 +1,21 @@
+rds:
+  instance_identifier: demo-db
+  allocated_storage: 20
+  engine: mysql
+  engine_version: 8.0
+  username: admin
+  password: florida
+  db_name: mydb
+  vpc_security_group_ids:
+    - sg-abc123
+  subnet_group_name: my-subnet-group
+  publicly_accessible: false
+  tags:
+    Environment: dev
+  db_subnet_group:
+    name: my-subnet-group
+    subnet_ids:
+      - subnet-abc123
+      - subnet-def456
+    description: DB subnet group
+

@@ -1,0 +1,51 @@
+eks:
+  cluster_name: demo-eks-cluster-2025
+  version: 1.29
+  vpc_id: vpc-0a1b2c3d4e5f67890
+  subnet_ids:
+    - subnet-0123456789abcdef0
+    - subnet-0fedcba9876543210
+  endpoint_private_access: true
+  endpoint_public_access: false
+  enable_irsa: true
+  cluster_security_group_ids:
+    - sg-0a1b2c3d4e5f67890
+  enabled_cluster_log_types:
+    - api
+    - audit
+    - authenticator
+    - controllerManager
+    - scheduler
+  node_groups:
+    - name: demo-ng1
+      instance_type: t3.medium
+      desired_capacity: 2
+      min_size: 1
+      max_size: 3
+      volume_size: 20
+      ssh_key_name: demo-eks-key
+      security_group_ids:
+        - sg-0a1b2c3d4e5f67890
+      iam_role:
+        create: true
+        name: demo-eks-node-group-role-2025
+        policies:
+          - arn: arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+          - arn: arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      tags:
+        NodeGroup: demo-ng1
+        Environment: dev
+  service_accounts:
+    - name: external-dns
+      namespace: kube-system
+      create_irsa: true
+      iam_role_name: demo-external-dns-role-2025
+      policies:
+        - arn: arn:aws:iam::aws:policy/AmazonRoute53FullAccess
+  cluster_iam_role:
+    create: true
+    name: demo-eks-cluster-role-2025
+    policies:
+      - arn: arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+  tags:
+    Environment: dev

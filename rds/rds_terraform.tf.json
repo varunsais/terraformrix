@@ -1,0 +1,37 @@
+{
+  "resource": {
+    "aws_db_instance": {
+      "rds": {
+        "identifier": "demo-db",
+        "allocated_storage": 20,
+        "engine": "mysql",
+        "engine_version": "8.0",
+        "instance_class": "db.t2.micro",
+        "username": "admin",
+        "password": "florida",
+        "vpc_security_group_ids": [
+          "sg-abc123"
+        ],
+        "db_subnet_group_name": "my-subnet-group",
+        "publicly_accessible": false,
+        "timeouts": {
+          "create": "30m",
+          "delete": "15m"
+        },
+        "tags": {
+          "Environment": "dev"
+        }
+      }
+    },
+    "aws_db_subnet_group": {
+      "rds": {
+        "name": "my-subnet-group",
+        "subnet_ids": [
+          "subnet-abc123",
+          "subnet-def456"
+        ],
+        "description": "DB subnet group"
+      }
+    }
+  }
+}
