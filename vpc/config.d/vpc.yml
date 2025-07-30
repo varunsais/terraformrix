@@ -1,2 +1,60 @@
 vpc:
   cidr: 10.0.0.0/16
+  enable_dns: true
+  instance_tenancy: default
+  public_subnets:
+    - cidr: 10.0.1.0/24
+      availability_zone: us-east-1a
+      map_public_ip: true
+      tags:
+        Name: demo-public-subnet-1
+        Environment: dev
+    - cidr: 10.0.2.0/24
+      availability_zone: us-east-1b
+      map_public_ip: true
+      tags:
+        Name: demo-public-subnet-2
+        Environment: dev
+  private_subnets:
+    - cidr: 10.0.3.0/24
+      availability_zone: us-east-1a
+      tags:
+        Name: demo-private-subnet-1
+        Environment: dev
+        kubernetes.io/role/internal-elb: "1"
+    - cidr: 10.0.4.0/24
+      availability_zone: us-east-1b
+      tags:
+        Name: demo-private-subnet-2
+        Environment: dev
+        kubernetes.io/role/internal-elb: "1"
+  internet_gateway:
+    create: true
+    tags:
+      Name: demo-igw
+      Environment: dev
+  route_tables:
+    public:
+      create: true
+      routes:
+        - destination_cidr: 0.0.0.0/0
+          gateway_id: internet_gateway
+      tags:
+        Name: demo-public-rt
+        Environment: dev
+    private:
+      create: true
+      routes:
+        - destination_cidr: 0.0.0.0/0
+          nat_gateway_id: nat_gateway
+      tags:
+        Name: demo-private-rt
+        Environment: dev
+  nat_gateways:
+    - subnet_id: public_subnet_1
+      tags:
+        Name: demo-nat-gateway
+        Environment: dev
+  tags:
+    Name: demo-vpc
+    Environment: demo
